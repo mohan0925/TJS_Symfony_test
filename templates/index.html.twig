@@ -1,0 +1,242 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Employees
+{% endblock %}
+
+{% block body %}
+	{{ form_start(employees) }}
+	<div class="container">
+		<div class="employeeTitleDiv">
+			<h5 class="employeeTitle">
+				Employees
+			</h5>
+			{{ form_label(employees.FirstName) }}
+		</div>
+
+		<div class="form-row">
+			<div class="form-label">First name:</div>
+			<div class="form-field">
+				{{ form_row(employees.FirstName) }}
+			</div>
+			<div>
+				<span class="text-danger">*</span>
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="form-label">Last Name:</div>
+			<div class="form-field">
+				{{ form_row(employees.LastName) }}
+			</div>
+			<div>
+				<span class="text-danger">*</span>
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="form-label">Date of birth:</div>
+			<div class="form-field">
+				{{ form_row(employees.DateOfBirth) }}
+			</div>
+			<div>
+				<span class="text-danger">*</span>
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="form-label">Email address:</div>
+			<div class="form-field">
+				{{ form_row(employees.Email, {'attr': {'pattern': '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+[.]+[a-zA-Z0-9-.]+(\\s)*' }}) }}
+			</div>
+			<div>
+				<span class="text-danger">*</span>
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="form-label">
+				&nbsp;
+			</div>
+			<div class="form-field">
+				<input type="submit" name="submit" value="SUBMIT" class="btn btn-danger"/>
+			</div>
+		</div>
+		{{ form_end(employees) }}
+		{% for message in app.flashes('success') %}
+			<div class="alert alert-success">
+				{{ message }}
+			</div>
+		{% endfor %}
+	</div>
+
+	<div class="container-table">
+		<table class="employees">
+			<thead>
+				<tr>
+					<th>First name:</th>
+					<th>Last name:</th>
+					<th>Date of birth:</th>
+					<th>Email address:</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for employe in employeesData %}
+					<tr>
+						<td>{{ employe.FirstName }}</td>
+						<td>{{ employe.LastName }}</td>
+						<td>{{ employe.DateOfBirth.format('d/m/y') }}</td>
+						<td>{{ employe.Email }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}
+
+
+{% block javascripts %}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+	<script>
+		$(document).ready(function () {
+        $('.js-datepicker').datepicker({format: 'dd/mm/yyyy', autoclose: true});
+        });
+        setTimeout(function () {
+        $('.alert alert-success').fadeOut('fast');
+        }, 30000);
+	</script>
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Spartan&display=swap">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"/>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css" rel="stylesheet"/>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="./assets/styles/app.css">
+	<style>
+		*,
+		*:before,
+		*:after {
+			-moz-box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+			box-sizing: border-box;
+			overflow: ;
+		}
+
+		.form-header {
+			font-size: 18px;
+			border-bottom: 1px solid #f4f4f4;
+			padding: 10px 0;
+		}
+
+		body {
+			font-family: arial, verdana;
+			font-size: 15px;
+		}
+		.employeeTitle {
+			color: #11517b;
+			font-weight: bold;
+		}
+		.employeeTitleDiv {
+			text-align: center;
+			color: #11517b;
+			font-weight: bold;
+		}
+		.form-label {
+			color: #11517b;
+			font-weight: bold;
+			display: inline-block;
+			width: 150px;
+			text-align: right;
+		}
+
+		.container {
+			padding: 25px;
+			width: 50%;
+			margin-left: 30%;
+			margin-right: 30%;
+			margin-top: 3%;
+			background-color: #98cbea52;
+			display: inline-block;
+			position: fixed;
+			resize: horizontal;
+			top: 20%;
+			margin-top: -140px;
+		}
+		.container-table {
+			padding: 1px 25px;
+			width: 60%;
+			margin-left: 25%;
+			margin-right: 25%;
+			margin-top: 30%;
+			display: inline-block;
+			position: fixed;
+			resize: horizontal;
+			top: 75%;
+			margin-top: -140px;
+		}
+		form {
+			margin: 30px 0;
+		}
+
+		.form-label {
+			float: left;
+			width: 150px;
+		}
+
+		.form-row {
+			margin: 12px 0;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.form-field {}
+		.form-field:after {
+			content: '';
+			display: block;
+			clear: both;
+		}
+
+		input[type=submit] {
+			width: 100px;
+			margin-right: 100px;
+			cursor: pointer;
+			background-color: #ff0606;
+		}
+
+		.employees {
+			font-family: Arial, Helvetica, sans-serif;
+			border-collapse: collapse;
+			width: 100%;
+			position: sticky;
+			overflow: auto;
+			height: 100px;
+		}
+
+		.employees td,
+		.employees th {
+			margin: 30px 0;
+			padding: 8px;
+			color: #11517b;
+			font-weight: bold;
+			overflow-y: auto;
+			overflow-x: hidden;
+		}
+
+		.employees tr:nth-child(odd) {
+			background-color: #98cbea52;
+		}
+
+		.container-table {
+			overflow-y: auto;
+			height: 300px;
+			-layout: fixed;
+		}
+
+		.container-table th {
+			text-align: left;
+			top: 0;
+			position: sticky;
+			background-color: white;
+			background-color: #075a8c;
+			color: #7fa3c4;
+
+		}
+	</style>
+{% endblock %}
